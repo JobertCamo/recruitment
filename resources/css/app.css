@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: "Helvetica", Times, serif;
+}
+
+[x-cloak] { display: none !important; }
+
+::-webkit-scrollbar {
+    width:0px;
+}
+
+::-webkit-scrollbar-track {
+    background:none;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1F2937;
+    border-radius: 5px;
+}
