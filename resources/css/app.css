@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-    font-family: "Helvetica", Times, serif;
+    font-family: "Helvetica", Arial, Roboto;
 }
 
 [x-cloak] { display: none !important; }
