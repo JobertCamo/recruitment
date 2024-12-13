@@ -14,7 +14,20 @@ new class extends Component {
     public function resu(Job $job)
     {
         $this->res = false;
-        $this->test = $job;
+
+        $this->test = [
+            'title' => $job->title,
+            'description' => $job->description,
+            'requirements' => $job->requirements,
+            'salary' => $job->salary,
+            'location' => $job->location,
+            'schedule' => $job->schedule,
+            'recruitment_period' => $job->recruitment_period,
+            'exp_need' => $job->exp_need,
+            'job_type' => $job->job_type,
+            'photo' => $job->photo,
+            'created_at' => $job->created_at,
+        ];
     }
     
     public function search($q)
@@ -119,26 +132,25 @@ new class extends Component {
                     <div class="font-bold">Header</div>
                     <x-button wire:navigate href="/jobpost" @click="details = false" label="Back" white icon="arrow-left" />
                 </div>
-                <div class="bg-gray-400 h-32 rounded-md bg-no-repeat bg-cover bg-center bg-[url('https://st4.depositphotos.com/1719108/25361/i/600/depositphotos_253610436-stock-photo-cartoon-scene-pirate-ship-sailing.jpg')] shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
-                    
+                <div class=" h-36 rounded-md bg-no-repeat bg-cover bg-center flex justify-center items-center overflow-hidden shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
+                    <img src="{{ asset('storage/'. $test['photo']) }}" alt="" width="100%">
                 </div>
             </div>
             <div>
                 <div class="font-bold">Job Title</div>
-                <div class="text-3xl">Software Developer</div>
+                <div class="text-3xl">{{ $test['title'] }}</div>
             </div>
             <div class="space-y-2">
                 <div class="font-bold">Job Description</div>
-                <p class="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, ab eius. Velit, 
-                    voluptatibus natus corrupti consectetur, itaque doloremque corporis obcaecati provident quaerat, expedita veniam soluta eius quo recusandae voluptate? Veniam.</p>
+                <p class="text-gray-500">{{ $test['description'] }}</p>
             </div>
             <div>
                 <div class="font-bold">Requirements</div>
-                <ul class="text-gray-500">
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, ab eius. Velit, voluptatibus</li>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, ab eius. Velit, voluptatibus</li>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, ab eius. Velit, voluptatibus</li>
-                </ul>
+                <div class="text-gray-500">
+                    @foreach (explode(',', $test['requirements']) as $requirement)
+                          <li> {{ $requirement }}</li>
+                    @endforeach
+                </div>
             </div>
         </div>
         <div class="bg-white w-auto lg:w-72 px-4 py-5 space-y-3 flex flex-col justify-between shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
@@ -146,27 +158,27 @@ new class extends Component {
                 <div class="font-bold">Job Details</div>
                 <div>
                     <div class="text-[12px] text-[#455A64]">Job Creation Date</div>
-                    <p>March 30, 2024</p>
+                    <p>{{ $test['created_at']->format('F d, Y')  }}</p>
                 </div>
                 <div>
                     <div class="text-[12px] text-[#455A64]">Recruitment Period</div>
-                    <p>March 30, 2024 - April 30, 2024</p>
+                    <p>{{ $test['recruitment_period'] }}</p>
                 </div>
                 <div>
                     <div class="text-[12px] text-[#455A64]">Job Type</div>
-                    <p>Full Time</p>
+                    <p>{{ $test['job_type'] }}</p>
                 </div>
                 <div>
                     <div class="text-[12px] text-[#455A64]">Experiences</div>
-                    <p>4+ years</p>
+                    <p>{{ $test['exp_need'] }}</p>
                 </div>
                 <div>
                     <div class="text-[12px] text-[#455A64]">Location</div>
-                    <p>Quezon City</p>
+                    <p>{{ $test['location'] }}</p>
                 </div>
                 <div>
                     <div class="text-[12px] text-[#455A64]">Salary</div>
-                    <p>25,000 PHP</p>
+                    <p>{{ $test['salary'] }}</p>
                 </div>
             </div>
             <div class="text-center">
