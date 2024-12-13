@@ -36,7 +36,7 @@
         {{-- <hr class=" h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" /> --}}
         <div class="mt-4 px-4  grid gap-3">
             <div class="flex justify-between items-center px-3 py-3 rounded-md hover:bg-gray-800">
-                <a href="/" class="flex items-center gap-1">
+                <a href="/dashboard" class="flex items-center gap-1">
                     <x-icon name="squares-2x2" />
                     Dashboard
                 </a>
@@ -118,8 +118,8 @@
     x-cloak>
         <div class="  relative text-center ">
             <div class="py-4  flex items-center pl-3 gap-3">
-                <img src="https://hr2.gwamerchandise.com/img/gwamlogo.png" width="70px" alt="" class="rounded-full">
-                <div class="text-3xl font-bold">HRGWA</div>
+                <img src="https://hr2.gwamerchandise.com/img/gwamlogo.png" width="50px" alt="" class="rounded-full">
+                <div class="text-2xl font-bold font-serif ">HRGWA</div>
             {{-- <button class="absolute top-0 right-5" href="" @click="sb2 = false">x</button> --}}
 
             </div>
@@ -128,7 +128,7 @@
         {{-- <hr class=" h-0.5 border-t-0 bg-neutral-100 dark:bg-white/10" /> --}}
         <div class="   grid gap-3 ">
             <div class="{{ request()->is('/') ? 'bg-[#f8fcfc] text-black hover:bg-none' : '' }} flex justify-between items-center px-3 py-3 rounded-l-full hover:bg-[#f8fcfc] hover:text-black" >
-                <a wire:navigate href="/" class="flex items-center gap-4 px-2">
+                <a  href="/dashboard" class="flex items-center gap-4 px-2">
                     <x-icon name="squares-2x2" />
                     Dashboard
                 </a>
@@ -213,7 +213,7 @@
             <div class="ml-10 lg:hidden">
                 HRGWA
             </div>
-            <div class="relative flex justify-center items-center space-x-3 " x-cloak x-data="{notif: false}">
+            <div class="relative flex justify-center items-center space-x-3 " x-cloak x-data="{notif: false, logout: false}">
                 <button class="">
                     <x-icon name="bell-alert"  color="gray" @click="notif = true" />
                 </button>
@@ -268,10 +268,22 @@
                 <button class="">
                     <x-icon name="question-mark-circle"  color="gray" class="" />
                 </button>
-                <button class="hidden lg:flex lg:items-center">
+                <button class="hidden lg:flex lg:items-center" @click=" logout = true ">
                     <x-avatar sm src="https://avatarfiles.alphacoders.com/364/364538.png" class="bg-gray-600" />
                 </button>
-                
+                {{-- Logout --}}
+                <template x-if="true">
+                    <div x-show="logout" x-cloak @click.away="logout = false" x-transition class="overflow-auto grid gap-3 p-3 absolute  top-10 rounded-md bg-white shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
+                        <div>
+                            <a href="">Profile</a>
+                            <form action="logout" method="POST">
+                                @csrf
+                                <button type="submit">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                </template>
+                {{-- Logout --}}
             </div>
             
         </div>

@@ -48,13 +48,13 @@ new class extends Component {
                     </div>
                 </td>
                 <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Danny Guzman
+                    Totoy Bibo
                 </th>
                 <td class="px-3 py-4">
-                    johndoe@gmail.com
+                    totoybibo@gmail.com
                 </td>
                 <td class="px-3 py-4">
-                    0992838282
+                    099222222
                 </td>
                 <td class="px-3 py-4">
                     Filipino
@@ -63,10 +63,9 @@ new class extends Component {
                     Finnancial Manager
                 </td>
                 <td class="px-3 py-4">
-                    Web dev
+                    69%
                 </td>
                 <td class="flex items-center px-3 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Remove</a>
                 </td>
             </tr>

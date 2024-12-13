@@ -15,7 +15,7 @@
         
         {{-- APpform --}}
         <div class=" h-screen flex justify-center items-center ">
-            <div class=" h-auto md:h-[600px] w-auto md:w-[60%] rounded-xl flex overflow-hidden shadow-2xl shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
+            <div class=" h-auto md:h-[600px] w-auto md:w-[60%] rounded-xl flex overflow-hidden  shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
                 <div class="bg-amber-400 w-80 hidden md:block">
                     <img src="{{ asset('images/ssss.png') }}" alt="">
                 </div>
@@ -49,7 +49,7 @@
                             <x-input label="Email" />
                             <x-input label="Conctact no." />
                             <x-input label="Nationality" />
-                            <x-input label="Resume" />
+                            <x-input type="file" label="Resume" />
                             <x-input label="Referred by" corner="Optional"/>
                         </div>
                         

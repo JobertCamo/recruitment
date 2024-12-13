@@ -53,7 +53,7 @@
                 </div>
                 <div class=" space-y-1 border-b-[1px] border-b-gray-300/50 py-6">
                     <div class="font-bold">Job Type</div>
-                    <div class="grid grid-cols-2">
+                    <div class="grid grid-cols-2 space-y-1">
                         <x-radio sm id="rounded-md" wire:model="model3" rounded="base" label="Full-Time" value="md" xl />
                         <x-radio sm id="rounded-md2" wire:model="model3" rounded="base" label="Part-Time" value="md" xl />
                         <x-radio sm id="rounded-md3" wire:model="model3" rounded="base" label="Internship" value="md" xl />
@@ -62,7 +62,7 @@
                 </div>
                 <div class=" space-y-1 border-b-[1px] border-b-gray-300/50 py-6">
                     <div class="font-bold">On Site / WFH</div>
-                    <div class="grid grid-cols-2">
+                    <div class="grid grid-cols-2 space-y-1">
                         <x-radio sm id="rounded-" wire:model="model3" rounded="base" label="Onsite" value="md" xl />
                         <x-radio sm id="rounded-2" wire:model="model3" rounded="base" label="WFH" value="md" xl />
                         <x-radio sm id="rounded-3" wire:model="model3" rounded="base" label="Hybrid" value="md" xl />
@@ -71,7 +71,7 @@
                 </div>
                 <div class=" space-y-1 border-b-[1px] border-b-gray-300/50 py-6">
                     <div class="font-bold">Job Category</div>
-                    <div class="grid grid-cols-2">
+                    <div class="grid grid-cols-2 space-y-1">
                         <x-radio sm id="rounded" wire:model="model3" rounded="base" label="Urgent" value="md" xl />
                         <x-radio sm id="rounded2" wire:model="model3" rounded="base" label="Urge" value="md" xl />
                         <x-radio sm id="rounded3" wire:model="model3" rounded="base" label="urg" value="md" xl />
