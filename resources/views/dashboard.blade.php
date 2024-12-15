@@ -100,11 +100,11 @@
 
     {{-- 2ND CARD --}}
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div class="flex flex-col  justify-center items-center shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] h-60  rounded-xl lg:col-span-2 min-w-[300px] lg:h-80 p-3 lg:py-4">
+        <div class="flex flex-col  justify-center items-center shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] h-60  rounded-xl lg:col-span-2 min-w-[300px] lg:h-80 xl:h-96 p-3 lg:py-4">
             <div class="w-full text-center">STATUSSSSSSS</div>
             <canvas class=" " id="myChart"></canvas>
         </div>
-        <div class="flex flex-col  justify-center items-center shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] h-60  rounded-xl lg:col-span-2 min-w-[300px] lg:h-80 p-3 lg:py-4">
+        <div class="flex flex-col  justify-center items-center shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] h-60  rounded-xl lg:col-span-2 min-w-[300px] lg:h-80 xl:h-96 p-3 lg:py-4">
             <div class="w-full text-center">STATUSSSSSSS</div>
             <canvas class=" " id="myChart2"></canvas>
         </div>

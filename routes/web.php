@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Applicant;
 use App\Http\Controllers\JobCreate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -8,7 +9,7 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::view('/login', 'login')->name('login');
+Route::view('/', 'login')->name('login');
 
 Route::post('/logout', function () {
     Auth::logout();
@@ -33,7 +34,7 @@ Route::middleware('auth')->group(function() {
 Route::view('/jobpost', 'job-posting');
 Route::view('/about', 'about');
 Route::view('/a', 'job-details');
-Route::view('/app', 'appform');
+Route::get('/a/{job}',[Applicant::class, 'show']);
 
 
 Route::view('/tae', 's');

@@ -9,8 +9,8 @@
       Priority
     @endslot
 
-    <div class="space-y-4" x-data="{subnav: 'applicants'}">
-        <div class="shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] w-full bg-white py-4 px-5 space-y-3 rounded-md" >
+    <div class=" bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]" x-data="{subnav: 'applicants'}">
+        <div class=" w-full  py-4 px-5 space-y-3 rounded-md" >
             <div class="mt-3 mb-2 flex justify-between items-center">
                 <div x-cloak x-show="subnav === 'applicants'" class="text-xl lg:text-2xl font-bold">List of Applicants</div>
                 <div x-cloak x-show="subnav === 'priority'" class="text-xl lg:text-2xl font-bold">Priority Applicants</div>
@@ -26,21 +26,10 @@
                     <button @click="subnav = 'failed'" :class="subnav === 'failed' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'" class="h-8 text-[12px] flex items-center">Failed <span class="hidden md:block">&nbsp; Applicants </span></button>
                 </div>
             </div>
-            <div class=" flex justify-between items-center lg:grid lg:grid-cols-6 space-x-3 ">
-                <div class="grid  space-y-2 lg:col-span-4">
-                    <x-input placeholder="search something" icon="magnifying-glass" />
-                </div>
-                <div class=" lg:col-span-1">
-                    <x-native-select
-                        placeholder="Filter"
-                        :options="['Active', 'Pending', 'Stuck', 'Done']"
-                    />
-                </div>
-                <div class="hidden lg:block lg:col-span-1 bg-red-500">
-                    <x-button label="add" />
-                </div>
-            </div>
+            
         </div>
+        
+
         <div x-show="subnav === 'applicants'" x-cloak>
             <livewire:applicants.applicant-lists  />
         </div>

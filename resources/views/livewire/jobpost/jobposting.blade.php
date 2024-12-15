@@ -1,21 +1,29 @@
 <?php
 
 use App\Models\Job;
+use App\Models\Tag;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
 new class extends Component {
     use WithPagination;
 
-    public $q = '';
+    public $q = null;
+    public $job_type = null;
+    public $sched = null;
+    public $date_range = null;
     public $res = true;
     public $test;
+    public $exp;
+    public $min_salary;
+    public $max_salary;
 
     public function resu(Job $job)
     {
         $this->res = false;
 
         $this->test = [
+            'id' => $job->id,
             'title' => $job->title,
             'description' => $job->description,
             'requirements' => $job->requirements,
@@ -30,25 +38,69 @@ new class extends Component {
         ];
     }
     
-    public function search($q)
+    // public function search($q)
+    // {
+    //     $jobs = Job::latest()
+    //                 ->Where('schedule', $this->job_type)
+    //                 ->Where('job_type', $this->sched)
+    //                 ->Where('title', 'LIKE', '%'.$this->q.'%')
+    //                 ->paginate(5);
+    //     return $jobs;
+    // }
+
+    public function tags()
     {
-        $jobs = Job::where('title', 'LIKE', '%'.$this->q.'%')
-                    ->orWhere('location', 'LIKE', '%'.$this->q.'%')
-                    ->orWhere('schedule', 'LIKE', '%'.$this->q.'%')
-                    ->get();
-        return $jobs;
+        return Tag::all();
     }
 
+    public function resetFilters()
+    {
+        $this->reset('q', 'job_type', 'sched', 'date_range', 'exp', 'min_salary', 'max_salary'); // Reset specific properties
+        $this->resetPage(); // Reset pagination
+    }
+
+    public function updated($property)
+    {
+        if (in_array($property, ['q', 'job_type', 'sched', 'date_range', 'exp', 'min_salary', 'max_salary'])) {
+            $this->resetPage(); // Reset pagination to page 1
+        }
+    }
+
+    public function search()
+    {
+        return Job::query()
+            ->when($this->q, fn($query) => $query->where('title', 'LIKE', '%' . $this->q . '%')->orwhere('location', 'LIKE', '%' . $this->q . '%'))
+            ->when($this->job_type, fn($query) => $query->where('job_type', $this->job_type))
+            ->when($this->sched, fn($query) => $query->where('schedule', $this->sched))
+            ->when($this->exp, fn($query) => $query->where('exp_need', $this->exp))
+            ->when($this->min_salary, fn($query) => $query->where('salary', '>=', $this->min_salary))
+            ->when($this->max_salary, fn($query) => $query->where('salary', '<=', $this->max_salary))
+            ->when($this->date_range, function ($query) {
+                if ($this->date_range === 'This Week') {
+                    $query->where('created_at', '>=', now()->subWeek());
+                } elseif ($this->date_range === 'This Month') {
+                    $query->where('created_at', '>=', now()->subMonth());
+                } elseif ($this->date_range === 'This Year') {
+                    $query->where('created_at', '>=', now()->subYear());
+                }
+            })
+            ->latest()
+            ->paginate(5);
+    }
+
+
     public function getJob(){
-        $jobs = Job::latest()->simplePaginate(10);
+        $jobs = Job::latest()->Paginate(5);
         return $jobs;
     }
 
     public function with(): Array
     {
-        !empty($this->q) ? $jobs = $this->search($this->q) : $jobs = $this->getJob();
+        // !empty($this->job_type) ? $jobs = $this->search() : $jobs = $this->getJob();
+        $jobs = $this->search();
         return [
             'jobs' => $jobs,
+            'tags' => $this->tags(),
         ];
 
     }
@@ -57,42 +109,54 @@ new class extends Component {
 
 <div class="flex gap-2 px-2 lg:px-9 py-2 mt-3" x-data="{details: false}">
     {{-- Sidebar --}}
-    <div class=" h-screen bg-white min-w-72 hidden lg:flex lg:flex-col   px-4 rounded-md shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
-        <div class="border-b-[1px] border-b-gray-300/50 py-2 mt-1 font-bold">
+    <div class=" bg-white min-w-72 hidden lg:flex lg:flex-col   px-4 rounded-md shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
+        <div class="flex justify-between border-b-[1px] border-b-gray-300/50 py-2 mt-1 font-bold">
             Filter
+            @if ($q || $job_type || $sched || $date_range)
+            <button class="font-normal text-red-500 text-sm hover:text-red-700 hidden md:block" wire:click="resetFilters">Reset Filters</button>
+            @endif
         </div>
         <div class=" space-y-1 border-b-[1px] border-b-gray-300/50 py-6">
             <div class="font-bold">Date Post</div>
             <x-native-select
                 placeholder="Anytime"
+                wire:model.live="date_range"
                 :options="['This Week', 'This Month', 'This Year']"
             />
         </div>
         <div class=" space-y-1 border-b-[1px] border-b-gray-300/50 py-6">
             <div class="font-bold">Job Type</div>
             <div class="grid grid-cols-2 space-y-1">
-                <x-radio warning sm id="rounded-md" wire:model="model3" rounded="base" label="Full-Time" value="md" xl />
-                <x-radio warning sm id="rounded-md2" wire:model="model3" rounded="base" label="Part-Time" value="md" xl />
-                <x-radio warning sm id="rounded-md3" wire:model="model3" rounded="base" label="Internship" value="md" xl />
-                <x-radio warning sm id="rounded-md4" wire:model="model3" rounded="base" label="Volunteer" value="md" xl />
+                <x-radio warning sm id="rounded-md" wire:model.live="sched" rounded="base" label="Full-Time" value="Full-Time" xl />
+                <x-radio warning sm id="rounded-md2" wire:model.live="sched" rounded="base" label="Part-Time" value="Part-Time" xl />
+                <x-radio warning sm id="rounded-md3" wire:model.live="sched" rounded="base" label="Internship" value="Internship" xl />
+                <x-radio warning sm id="rounded-md4" wire:model.live="sched" rounded="base" label="Volunteer" value="Volunteer" xl />
             </div>
         </div>
         <div class=" space-y-1 border-b-[1px] border-b-gray-300/50 py-6">
             <div class="font-bold">On Site / WFH</div>
             <div class="grid grid-cols-2 space-y-1">
-                <x-radio warning sm id="rounded-" wire:model="model4" rounded="base" label="Onsite" value="md" xl />
-                <x-radio warning sm id="rounded-2" wire:model="model4" rounded="base" label="WFH" value="md" xl />
-                <x-radio warning sm id="rounded-3" wire:model="model4" rounded="base" label="Hybrid" value="md" xl />
+                <x-radio warning sm id="rounded-" wire:model.live="job_type" rounded="base" label="Onsite" value="Onsite" xl />
+                <x-radio warning sm id="rounded-2" wire:model.live="job_type" rounded="base" label="WFH" value="WFH" xl />
+                <x-radio warning sm id="rounded-3" wire:model.live="job_type" rounded="base" label="Hybrid" value="Hybrid" xl />
 
             </div>
         </div>
-        <div class=" space-y-1 border-b-[1px] border-b-gray-300/50 py-6">
-            <div class="font-bold">Job Category</div>
-            <div class="grid grid-cols-2 space-y-1">
-                <x-radio warning sm id="rounded" wire:model="model5" rounded="base" label="Urgent" value="md" xl />
-                <x-radio warning sm id="rounded2" wire:model="model5" rounded="base" label="Urge" value="md" xl />
-                <x-radio warning sm id="rounded3" wire:model="model5" rounded="base" label="urg" value="md" xl />
+        <div class="space-y-1 border-b-[1px] border-b-gray-300/50 py-6">
+            <div class="font-bold">Salary Range</div>
+            <div class="flex items-center justify-between">
+                <x-input class="max-w-28" label="Min" wire:model.live="min_salary" type="number" placeholder="Min Salary" />
+                {{-- <x-icon name="bars-2" />  --}}
+                <x-input class="max-w-28" label="Max" wire:model.live="max_salary" type="number" placeholder="Max Salary" />
             </div>
+        </div>
+        <div class=" space-y-1 border-b-[1px] border-b-gray-300/50 py-6">
+            <div class="font-bold">Experience</div>
+            <x-native-select
+                placeholder="year"
+                wire:model.live="exp"
+                :options="['1 year', '2 years', '3 years', '4 years']"
+            />
         </div>
     </div>
     {{-- Sidebar --}}
@@ -107,21 +171,49 @@ new class extends Component {
             <x-button type="submit" wire:click="search" amber>Find&nbsp;Jobs</x-button>
         </div>
         <div class="w-full flex justify-between items-center">
-            <div>{{ count($jobs) }} Job results</div>
-            <div class=" gap-3 hidden lg:flex">
-                <x-button  slate label="Web Dev" rounded />
-                <x-button  slate label="Software dev" rounded />
-                <x-button  slate label="Senior Dev" rounded />
-                <x-button  slate label="Farmer" rounded />
-                <x-button  slate label="Welder" rounded />
-                <x-button  slate label="Sewer" rounded />
+            <div class="hidden md:block">{{ count($jobs) }} Job results</div>
+            <div class=" gap-3 hidden lg:flex lg:w-[70%] overflow-auto no-scrollbar">
+                @foreach ($tags as $tag)
+                    <x-button  slate label="{{ $tag->name }}" rounded />
+                @endforeach
+            </div>
+            <div class="flex items-center gap-5 lg:hidden">
+                <x-native-select
+                    class="text-[13px]"
+                    placeholder="Job Type"
+                    wire:model.live="job_type"
+                    :options="['Onsite', 'WFH', 'Hybrid']"
+                />
+                <x-native-select
+                    class="text-[13px]"
+                    placeholder="Schedule"
+                    wire:model.live="sched"
+                    :options="['Full-Time', 'Part-Time', 'Internship']"
+                />
+                <x-native-select
+                    class="text-[13px]"
+                    placeholder="Date Post"
+                    wire:model.live="date_range"
+                    :options="['This Week', 'This Month', 'This Year']"
+                />
             </div>
         </div>
-        @foreach ($jobs as $job)
+        {{-- @foreach ($jobs as $job)
         <x-jobcard-wide :$job/>
-        @endforeach
+        @endforeach --}}
+
+        @forelse ($jobs as $job)
+        <x-jobcard-wide :$job/>
+        @empty
+        <div class="text-center h-32 flex justify-center items-center text-xl">No data found.</div>
+        @endforelse
+
+        <div class="px-5 py-3">
+            {{ $jobs->links() }}
+        </div>
     </div>
     @endif
+   
 
     <x-preloader  />
     @if(isset($test))
@@ -182,7 +274,7 @@ new class extends Component {
                 </div>
             </div>
             <div class="text-center">
-                <x-button href="/app" label="Apply Now" amber class="w-full" />
+                <x-button href="/a/{{ $test['id'] }}" label="Apply Now" amber class="w-full" />
             </div>
         </div>
     </div>

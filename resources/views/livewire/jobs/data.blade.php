@@ -39,7 +39,7 @@ new class extends Component {
                 </div>
                 <div class="text-end absolute bottom-0 left-0 px-3 py-3 flex justify-between w-full ">
                     <div class="flex items-center gap-1 font-bold"><x-icon solid color="red" name="map-pin" />{{ $job->location }}</div>
-                    <p class="text-sm text-gray-400"><x-mini-button black rounded icon="pencil" /></p>
+                    <a href="/r/{{ $job->id }}" class="text-sm text-gray-400"><x-mini-button  black rounded icon="pencil" /></a>
                 </div>
             </div>
             <div class="text-wrap text-gray-500 w-auto ">
