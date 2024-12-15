@@ -217,12 +217,12 @@ new class extends Component {
 
     <x-preloader  />
     @if(isset($test))
-    <div on="updated" x-show="details" x-cloak  class=" w-full flex justify-between flex-col md:flex-row gap-2 h-auto md:h-[650px]">
+    <div on="updated" x-show="details" x-cloak  class=" w-full flex justify-between flex-col md:flex-row gap-2 h-auto md:min-h-[650px]">
         <div class="bg-white rounded-md flex-1 px-5 py-4 space-y-5 shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
             <div class="space-y-3">
                 <div class="flex justify-between items-center">
                     <div class="font-bold">Header</div>
-                    <x-button wire:navigate href="/jobpost" @click="details = false" label="Back" white icon="arrow-left" />
+                    <x-button wire:navigate href="/" @click="details = false" label="Back" white icon="arrow-left" />
                 </div>
                 <div class=" h-36 rounded-md bg-no-repeat bg-cover bg-center flex justify-center items-center overflow-hidden shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
                     <img src="{{ asset('storage/'. $test['photo']) }}" alt="" width="100%">

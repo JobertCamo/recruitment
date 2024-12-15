@@ -15,8 +15,8 @@
         
         {{-- APpform --}}
         <div class=" h-screen flex justify-center items-center ">
-            <div class=" h-auto lg:h-[600px] w-auto lg:w-[60%] rounded-xl flex overflow-hidden  shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
-                <div class="bg-amber-400 w-80 hidden  md:block">
+            <div class=" h-auto lg:h-[600px] w-auto lg:w-[60%] rounded-xl flex overflow-hidden  lg:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
+                <div class="bg-amber-400 w-80 hidden  lg:block">
                     <img src="{{ asset('images/ssss.png') }}" alt="">
                 </div>
                 <livewire:jobpost.appform :title="$job->title" :requirements="$job->requirements" />

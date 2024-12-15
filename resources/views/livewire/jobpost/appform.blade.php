@@ -103,7 +103,7 @@ new class extends Component {
                 {{ $result }}%
             </div>
             <div>You are {{ $result }} percent fit in this role. <br> Goodluck! :D</div>
-            <x-button label="back" amber href="/jobpost"/>
+            <x-button label="back" amber href="/"/>
         </div>
     </x-stable-notif>
     <div class="text-3xl">Hello! Please tell us about yourself </div>
@@ -143,7 +143,7 @@ new class extends Component {
         
     </div>
     <div class="min-w-full mt-3 flex justify-between items-center gap-10">
-        <x-button type="submit" amber label="Submit Application" class="flex-1" />
+        <x-button type="submit" amber label="Submit" class="flex-1" />
         <button @click="terms = true">
             <x-checkbox label="Terms and Condition" wire:model.live="terms" errorless />
         </button>
